@@ -200,7 +200,7 @@ export function Footer() {
 
       <div className={`hidden md:block mt-8 pt-6 border-t w-full transition-colors duration-200 ${BORDER_STYLES.divider}`}>
         <p className={`text-xs text-center transition-colors duration-200 ${TEXT_STYLES.muted}`}>
-          Agencia de Producción Creativa, Relaciones Públicas & Marketing • Puerto Rico
+          Agencia de Producción Creativa, Relaciones Públicas & Marketing • México 
         </p>
       </div>
     </footer>

@@ -60,8 +60,8 @@ export default function HomePage() {
           <GlassmorphismNav />
           <HeroSection />
           <ColaborationSection/>
-          <ProblemSolutionSection />
           <FeaturesSection />
+          <ProblemSolutionSection />
           <AITeamSection />
           <TestimonialsSection />
           <ROICalculatorSection />

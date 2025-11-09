@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, ArrowRight, Sun, Moon } from "lucide-react"
+import { Menu, X, Sun, Moon } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -70,7 +70,7 @@ export function GlassmorphismNav() {
       window.removeEventListener("scroll", controlNavbar)
       clearTimeout(timer)
     }
-  }, [isOpen]) // Added isOpen as dependency to fix the warning
+  }, [isOpen])
 
   // Scroll to section
   const scrollToSection = (href: string) => {
@@ -89,15 +89,17 @@ export function GlassmorphismNav() {
 
   const isDark = theme === "dark"
   const textStyle = isDark ? "text-white/90 hover:text-white" : "text-slate-800"
+  const hoverScale = "hover:scale-105 transition-transform duration-200"
+  const menuItemClass = `font-medium text-lg ${textStyle} ${hoverScale}`
+  const mobileMenuItemClass = `rounded-lg px-4 py-3 font-medium ${textStyle} hover:scale-[1.02] transition-transform duration-200`
 
   const MenuItem = ({ name, href }: { name: string; href: string }) => {
     const isExternal = href.startsWith("/")
-    const className = `font-medium text-lg ${textStyle} hover:scale-105 transition-transform duration-200`
 
     return isExternal ? (
-      <Link href={href} className={className}>{name}</Link>
+      <Link href={href} className={menuItemClass}>{name}</Link>
     ) : (
-      <button onClick={() => scrollToSection(href)} className={className} aria-label={`Ir a ${name}`}>
+      <button onClick={() => scrollToSection(href)} className={menuItemClass} aria-label={`Ir a ${name}`}>
         {name}
       </button>
     )
@@ -105,22 +107,22 @@ export function GlassmorphismNav() {
 
   return (
     <nav 
-      className={`fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
+      className={`fixed top-4 md:top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-20 md:-translate-y-24 opacity-0"
       } ${hasLoaded ? "opacity-100" : "opacity-0 translate-y-4"}`}
       aria-label="Navegación principal"
     >
-      <div className="w-[90vw] max-w-4xl mx-auto">
-        <GlassCard rounded="full" padding="sm" className="px-4 py-3 md:px-6 md:py-2">
+      <div className="w-[90vw] max-w-6xl mx-auto">
+        <GlassCard rounded="full" padding="sm" className="px-4 py-3 md:px-6 md:py-1">
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
-            <Link href="/" className="flex items-center hover:scale-105 transition-transform" aria-label="Inicio">
-              <div className="w-12 h-12 md:w-14 md:h-14">
+            <Link href="/" className={`flex items-center ${hoverScale}`} aria-label="Inicio">
+              <div className="w-24 h-24 md:w-16 md:h-16 relative"> {/* Aumenté de 22 a 24 y de 14 a 16 */}
                 <Image
                   src="/logo.svg"
                   alt="Logo"
-                  width={78}
-                  height={78}
+                  width={88}
+                  height={88}
                   className="w-full h-full object-contain"
                   style={{ filter: isDark ? "invert(1)" : "none" }}
                 />
@@ -136,21 +138,20 @@ export function GlassmorphismNav() {
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-full ${textStyle} hover:bg-white/10 hover:scale-110 transition-transform duration-200`}
+                className={`p-2 rounded-full ${textStyle} hover:bg-white/10 ${hoverScale}`}
                 aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
               >
                 {isDark ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <Button onClick={() => scrollToSection("#contact")} aria-label="Contactar">
-                <span>Contáctanos</span>
-                <ArrowRight size={16} />
+                Contáctanos
               </Button>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden ${textStyle} hover:scale-110 transition-transform duration-200`}
+              className={`md:hidden ${textStyle} ${hoverScale}`}
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
               <div className="relative w-6 h-6">
@@ -181,7 +182,7 @@ export function GlassmorphismNav() {
                       if (!item.href.startsWith("/")) scrollToSection(item.href)
                       setIsOpen(false)
                     }}
-                    className={`rounded-lg px-4 py-3 font-medium ${textStyle} hover:scale-[1.02] transition-transform duration-200`}
+                    className={mobileMenuItemClass}
                   >
                     {item.name}
                   </Link>
@@ -189,7 +190,7 @@ export function GlassmorphismNav() {
                 <div className={`h-px my-2 ${isDark ? "bg-white/10" : "bg-slate-300"}`} />
                 <button
                   onClick={toggleTheme}
-                  className={`rounded-lg px-4 py-3 font-medium flex items-center gap-2 ${textStyle} hover:scale-[1.02] transition-transform duration-200`}
+                  className={`${mobileMenuItemClass} flex items-center gap-2`}
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
                   {isDark ? "Modo Claro" : "Modo Oscuro"}
@@ -202,8 +203,7 @@ export function GlassmorphismNav() {
                       setIsOpen(false)
                     }}
                   >
-                    <span>Contáctanos</span>
-                    <ArrowRight size={16} />
+                    Contáctanos
                   </Button>
                 </div>
               </div>

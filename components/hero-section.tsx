@@ -153,7 +153,7 @@ export function HeroSection() {
             <span className="text-[var(--color-foreground)] transition-colors duration-300">Comunicamos</span>
             <RotatingText
               texts={ROTATING_TEXTS}
-              mainClassName="px-2 sm:px-2 md:px-3 bg-[var(--color-background)] text-[var(--color-foreground)] overflow-hidden py-1 sm:py-1 md:py-2 justify-center rounded-lg shadow-lg transition-colors duration-300"
+              mainClassName="px-2 sm:px-2 md:px-3 bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden py-1 sm:py-1 md:py-2 justify-center rounded-lg shadow-lg transition-colors duration-300"
               staggerFrom="last"
               splitLevelClassName="overflow-hidden pb-1"
             />
@@ -167,19 +167,12 @@ export function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 sm:mb-16 animate-fade-in-buttons">
-          <Button
-            size="lg"
-            className="rounded-full px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg group cursor-pointer"
-          >
-            <span>Conoce Nuestros Servicios</span>
-            <Icon d="M9 5l7 7-7 7" className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          <Button size="lg">
+            Conoce Nuestros Servicios
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full px-8 py-4 text-lg font-medium hover:scale-105 group cursor-pointer"
-          >
-            <Icon d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+          
+          <Button variant="outline" size="lg">
+            <Icon d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" className="h-5 w-5" />
             Ver Portafolio
           </Button>
         </div>
