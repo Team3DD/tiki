@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { MessageCircle } from "lucide-react"
 
 const pilares = [
   {
@@ -36,6 +35,15 @@ const pilares = [
   },
 ]
 
+const cardClass =
+  "h-full p-6 rounded-xl border transition-all duration-300 group " +
+  "bg-[var(--color-background)] text-[var(--color-foreground)] border-[var(--color-foreground)]/20 " +
+  "relative overflow-hidden " +
+  "before:absolute before:inset-0 before:z-0 before:bg-[var(--color-foreground)] " +
+  "before:content-[''] before:transition-transform before:duration-300 before:translate-x-[-101%] " +
+  "hover:before:translate-x-0 hover:text-[var(--color-background)] " +
+  "[&_*]:relative [&_*]:z-10"
+
 export function AITeamSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -50,7 +58,7 @@ export function AITeamSection() {
       {
         threshold: 0.1,
         rootMargin: "0px 0px -100px 0px",
-      },
+      }
     )
 
     if (sectionRef.current) {
@@ -66,31 +74,29 @@ export function AITeamSection() {
 
   return (
     <section id="ai-team" ref={sectionRef} className="relative z-10">
-      <div className="bg-white dark:bg-slate-900 rounded-b-[3rem] pt-16 sm:pt-24 pb-16 sm:pb-24 px-4 relative overflow-hidden transition-colors duration-300">
+      <div className="bg-[var(--color-background)]/80 pt-16 sm:pt-24 pb-16 sm:pb-24 px-4 relative overflow-hidden transition-colors duration-300">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <div
-              className={`inline-flex items-center gap-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-full text-sm font-medium mb-6 transition-all duration-1000 transition-colors duration-300 ${
+              className={`inline-flex items-center px-4 py-2 rounded-full bg-[var(--color-background)]/10 backdrop-blur-md border border-[var(--color-foreground)]/20 text-[var(--color-foreground)] text-sm font-medium mb-8 mt-12 transition-all duration-1000 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <MessageCircle className="w-4 h-4" />
+              <span className="w-2 h-2 bg-[var(--color-foreground)]/60 rounded-full mr-2 animate-pulse" />
               Pilares de TIKI PR
             </div>
 
             <h2
-              className={`text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4 transition-all duration-1000 transition-colors duration-300 ${
+              className={`text-4xl md:text-5xl font-bold text-[var(--color-foreground)] mb-4 transition-all duration-1000 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
               Cinco Pilares que{" "}
-              <span className="bg-gradient-to-r from-slate-600 to-slate-400 dark:from-slate-300 dark:to-slate-100 bg-clip-text text-transparent">
-                Transforman Tu Marca
-              </span>
+              <span className="text-[var(--color-foreground)]">Transforman Tu Marca</span>
             </h2>
 
             <p
-              className={`text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-all duration-1000 transition-colors duration-300 ${
+              className={`text-xl text-[var(--color-foreground)]/80 max-w-2xl mx-auto transition-all duration-1000 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
@@ -110,16 +116,14 @@ export function AITeamSection() {
                   transitionDelay: isVisible ? `${300 + index * 100}ms` : "0ms",
                 }}
               >
-                <div className="h-full p-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 group">
-                  <div className="text-5xl font-bold text-slate-200 dark:text-slate-700 mb-4 group-hover:text-slate-300 dark:group-hover:text-slate-600 transition-colors duration-300">
+                <div className={cardClass}>
+                  <div className="text-5xl font-bold mb-4 group-hover:text-[var(--color-background)]/90 transition-colors duration-300">
                     {pilar.number}
                   </div>
-
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
+                  <h3 className="text-lg font-bold mb-3 group-hover:text-[var(--color-background)] transition-colors duration-300">
                     {pilar.title}
                   </h3>
-
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+                  <p className="text-sm leading-relaxed group-hover:text-[var(--color-background)]/90 transition-colors duration-300">
                     {pilar.description}
                   </p>
                 </div>
@@ -132,7 +136,7 @@ export function AITeamSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-6 transition-colors duration-300">
+            <p className="text-[var(--color-foreground)]/80 max-w-2xl mx-auto mb-6">
               Estos cinco pilares trabajan en conjunto para crear una estrategia integrada que posiciona tu marca,
               amplifica tu mensaje y genera resultados.
             </p>

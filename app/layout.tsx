@@ -51,18 +51,19 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
+              try {
                 const theme = localStorage.getItem('theme') || 
                   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                 document.documentElement.classList.toggle('light', theme === 'light');
                 document.documentElement.classList.toggle('dark', theme === 'dark');
-              })();
+              } catch (e) {}
             `,
           }}
         />
       </head>
       <body
         className={`font-sans antialiased bg-background text-foreground ${dancingScript.variable} ${caveat.variable}`}
+        suppressHydrationWarning
       >
         <Suspense fallback={null}>
           <NavigationTransition />

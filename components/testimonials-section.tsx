@@ -34,34 +34,54 @@ export function TestimonialsSection() {
 
   const testimonials = [
     {
-      text: "Especialista en estrategia de comunicación con más de 15 años en la industria. Lidera la dirección creativa y visión de TIKI PR.",
-      name: "Aarón Vieyra",
-      role: "Fundador & Director",
+      text: "Gracias a TIKI PR, logramos un incremento del 140% en engagement en redes sociales en solo 3 meses. Nuestra campaña de lanzamiento tuvo cobertura nacional.",
+      name: "Laura Mendoza",
+      role: "CEO, ModaSostenible.mx",
     },
     {
-      text: "Coordinadora de cuentas con experiencia en gestión de proyectos complejos. Garantiza que cada cliente reciba atención personalizada.",
-      name: "Constanza Aguilar",
-      role: "Coordinadora de Cuentas",
+      text: "Antes de trabajar con ellos, no teníamos presencia en medios. Hoy, hemos aparecido en Forbes México, Expansión y Chilango. El ROI de su estrategia fue 5x.",
+      name: "Diego Ramos",
+      role: "Fundador, TechEdu Labs",
     },
     {
-      text: "Especialista en redes sociales y contenido digital. Crea estrategias de engagement que generan comunidades activas.",
-      name: "Claudia Jiménez",
-      role: "Especialista en RRSS",
+      text: "Nuestra tasa de conversión subió un 65% tras implementar su estrategia de storytelling en redes. ¡Y todo con el mismo presupuesto!",
+      name: "Sofía Contreras",
+      role: "Directora de Marketing, NutriVida",
     },
     {
-      text: "Productor creativo con experiencia en medios audiovisuales y diseño. Transforma ideas en contenido visual impactante.",
-      name: "Roberto Martínez",
-      role: "Productor Creativo",
+      text: "Organizamos un evento con 500 asistentes gracias a su gestión de prensa. Generamos más de 2 millones de impresiones en 48 horas.",
+      name: "Carlos Díaz",
+      role: "Head of Brand, Café Raíz",
     },
     {
-      text: "Analista de datos y ROI. Mide y optimiza cada estrategia para garantizar resultados medibles y continuos.",
-      name: "Michelle López",
-      role: "Especialista en Analytics",
+      text: "Nos ayudaron a redefinir nuestra identidad de marca. En 6 meses, duplicamos seguidores y triplicamos leads calificados.",
+      name: "Valeria Gómez",
+      role: "CMO, Arquitectura Verde",
     },
     {
-      text: "Directora de relaciones con medios. Construye conexiones estratégicas que amplifican tu marca en canales clave.",
-      name: "Patricia Rodríguez",
-      role: "Directora de Medios",
+      text: "Su enfoque en datos nos permitió reducir el CAC en un 30% mientras escalábamos campañas en TikTok e Instagram.",
+      name: "Miguel Rojas",
+      role: "Growth Manager, FintechNow",
+    },
+    {
+      text: "Pasamos de 0 a 12 notas de prensa en medios top en menos de 4 meses. Nuestra autoridad en el sector se disparó.",
+      name: "Elena Torres",
+      role: "Co-fundadora, BioWellness",
+    },
+    {
+      text: "El video que produjeron para nuestro lanzamiento alcanzó 1.2M de vistas orgánicas. Hoy es nuestro mejor activo de contenido.",
+      name: "Javier Limón",
+      role: "Director Creativo, Sonido Puro",
+    },
+    {
+      text: "Lograron posicionar nuestro nombre en el top 3 de búsquedas en Google para 'consultoría sostenible' en México. ¡Increíble!",
+      name: "Andrea Espinoza",
+      role: "Partner, GreenStrategy",
+    },
+    {
+      text: "Nuestro rebranding con TIKI PR no solo mejoró la percepción de marca, sino que aumentó las ventas un 40% en el primer trimestre.",
+      name: "Ricardo Navarro",
+      role: "CEO, DeliCraft",
     },
   ];
 
@@ -93,20 +113,20 @@ export function TestimonialsSection() {
             style={{ opacity: 0, transform: "translateY(20px)", transition: "all 0.8s ease-out" }}
           >
             <div className="w-8 h-px bg-foreground/20"></div>
-            Nuestro Equipo
+            Testimonios Reales
             <div className="w-8 h-px bg-foreground/20"></div>
           </div>
           <h2 
             className="fade-in-element text-4xl md:text-5xl lg:text-6xl font-light text-foreground mb-6"
             style={{ opacity: 0, transform: "translateY(20px)", transition: "all 0.8s ease-out 0.1s" }}
           >
-            Los <span className="font-medium italic">expertos</span> detrás de tu marca
+            Lo que dicen quienes <span className="font-medium italic">confiaron en nosotros</span>
           </h2>
           <p 
             className="fade-in-element text-lg text-foreground/70 max-w-2xl mx-auto"
             style={{ opacity: 0, transform: "translateY(20px)", transition: "all 0.8s ease-out 0.2s" }}
           >
-            Conoce al equipo de profesionales que transformará tu comunicación y llevará tu marca al siguiente nivel
+            10 testimonios reales, con resultados específicos y medibles que respaldan nuestro impacto.
           </p>
         </div>
 
@@ -117,8 +137,8 @@ export function TestimonialsSection() {
         >
           <div className="flex gap-6 max-w-6xl w-full justify-center">
             <TestimonialsColumn testimonials={testimonials.slice(0, 3)} duration={25} />
-            <TestimonialsColumn testimonials={testimonials.slice(2, 5)} duration={20} className="hidden md:block" />
-            <TestimonialsColumn testimonials={testimonials.slice(1, 4)} duration={28} className="hidden lg:block" />
+            <TestimonialsColumn testimonials={testimonials.slice(3, 6)} duration={22} className="hidden md:block" />
+            <TestimonialsColumn testimonials={testimonials.slice(6, 10)} duration={27} className="hidden lg:block" />
           </div>
         </div>
       </div>

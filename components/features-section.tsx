@@ -1,525 +1,146 @@
+// components/features-section.tsx
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Megaphone, Lightbulb, TrendingUp } from "lucide-react"
+import { motion } from "framer-motion"
+import { CheckCircle2 } from "lucide-react"
+import { GlassCard } from "@/components/ui/glass-card"
+import { useEffect, useState } from "react"
 
-const AnimatedChatDemo = ({ isActive }: { isActive: boolean }) => {
-  const [messages, setMessages] = useState([
-    { text: "Hi! How can I help you today?", isBot: true, visible: false },
-    { text: "I'd like to book an appointment", isBot: false, visible: false },
-    { text: "Perfect! I can help with that. What service are you interested in?", isBot: true, visible: false },
-  ])
-  const [typingDots, setTypingDots] = useState(0)
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [cycleCount, setCycleCount] = useState(0)
+const pillars = [
+  "Estrategias de comunicación 360°",
+  "Producción creativa de alto impacto",
+  "Relaciones públicas con medios clave",
+  "Marketing digital y gestión de redes",
+  "Alianzas con influencers estratégicos",
+]
 
-  useEffect(() => {
-    const timeInterval = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 1000)
-    return () => clearInterval(timeInterval)
-  }, [])
-
-  useEffect(() => {
-    if (!isActive) return
-
-    const scenarios = [
-      [
-        { text: "Hi! How can I help you today?", isBot: true },
-        { text: "I'd like to book an appointment", isBot: false },
-        { text: "Perfect! I can help with that. What service are you interested in?", isBot: true },
-      ],
-      [
-        { text: "Hello! I'm available 24/7 to assist you.", isBot: true },
-        { text: "Do you have weekend availability?", isBot: false },
-        { text: "I can check our weekend slots for you.", isBot: true },
-      ],
-      [
-        { text: "Good evening! How may I assist you?", isBot: true },
-        { text: "I need help with pricing", isBot: false },
-        { text: "I'd be happy to provide pricing information right away!", isBot: true },
-      ],
-    ]
-
-    const currentScenario = scenarios[cycleCount % scenarios.length]
-    setMessages(currentScenario.map((msg) => ({ ...msg, visible: false })))
-
-    const timer = setTimeout(() => {
-      setMessages((prev) => prev.map((msg, i) => ({ ...msg, visible: i === 0 })))
-
-      setTimeout(() => {
-        setMessages((prev) => prev.map((msg, i) => ({ ...msg, visible: i <= 1 })))
-
-        setTimeout(() => {
-          const typingInterval = setInterval(() => {
-            setTypingDots((prev) => (prev + 1) % 4)
-          }, 500)
-
-          setTimeout(() => {
-            clearInterval(typingInterval)
-            setMessages((prev) => prev.map((msg) => ({ ...msg, visible: true })))
-
-            setTimeout(() => {
-              setCycleCount((prev) => prev + 1)
-            }, 3000)
-          }, 2000)
-        }, 1000)
-      }, 1500)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [isActive, cycleCount])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32 overflow-hidden relative">
-      <div className="absolute top-2 right-2 flex items-center gap-1">
-        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-        <span className="text-xs text-slate-500 font-medium">24/7</span>
-      </div>
-      <div className="space-y-2">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`flex ${msg.isBot ? "justify-start" : "justify-end"} transition-all duration-500 ${
-              msg.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}
-          >
-            <div
-              className={`max-w-[80%] px-3 py-1.5 rounded-full text-xs ${
-                msg.isBot ? "bg-slate-200 text-slate-700" : "bg-blue-500 text-white"
-              }`}
-            >
-              {msg.text}
-            </div>
-          </div>
-        ))}
-        {typingDots > 0 && (
-          <div className="flex justify-start">
-            <div className="bg-slate-200 px-3 py-1.5 rounded-full">
-              <div className="flex space-x-1">
-                {[1, 2, 3].map((dot) => (
-                  <div
-                    key={dot}
-                    className={`w-1 h-1 bg-slate-500 rounded-full transition-opacity duration-300 ${
-                      typingDots >= dot ? "opacity-100" : "opacity-30"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-const AnimatedPhoneDemo = ({ isActive }: { isActive: boolean }) => {
-  const [callState, setCallState] = useState<"idle" | "ringing" | "answered">("idle")
-  const [callCount, setCallCount] = useState(0)
-
-  useEffect(() => {
-    if (!isActive) return
-
-    const cycleCall = () => {
-      setCallState("ringing")
-      setTimeout(() => {
-        setCallState("answered")
-        setTimeout(() => {
-          setCallState("idle")
-          setCallCount((prev) => prev + 1)
-          setTimeout(cycleCall, 2000)
-        }, 2000)
-      }, 2000)
-    }
-
-    const timer = setTimeout(cycleCall, 800)
-    return () => clearTimeout(timer)
-  }, [isActive])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32 flex items-center justify-center relative">
-      <div className="absolute top-2 right-2 text-xs text-slate-500 font-medium">Calls: {callCount + 1}</div>
-      <div className="relative">
-        <div
-          className={`w-16 h-16 rounded-full bg-green-500 flex items-center justify-center transition-all duration-500 ${
-            callState === "ringing" ? "animate-pulse scale-110" : ""
-          } ${callState === "answered" ? "bg-blue-500" : ""}`}
-        >
-          <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-          </svg>
-        </div>
-        {callState === "ringing" && (
-          <>
-            <div className="absolute inset-0 rounded-full border-2 border-green-400 animate-ping"></div>
-            <div className="absolute inset-0 rounded-full border-2 border-green-400 animate-ping animation-delay-75"></div>
-          </>
-        )}
-        {callState === "answered" && (
-          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-            <div className="bg-blue-100 px-2 py-1 rounded text-xs text-blue-700 whitespace-nowrap">Call answered</div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-const AnimatedCalendarDemo = ({ isActive }: { isActive: boolean }) => {
-  const [selectedDate, setSelectedDate] = useState<number | null>(null)
-  const [booked, setBooked] = useState(false)
-
-  useEffect(() => {
-    if (!isActive) return
-
-    const timer = setTimeout(() => {
-      setSelectedDate(15)
-      setTimeout(() => setBooked(true), 1500)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [isActive])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32">
-      <div className="grid grid-cols-7 gap-1 text-xs">
-        {Array.from({ length: 21 }, (_, i) => i + 1).map((day) => (
-          <div
-            key={day}
-            className={`w-4 h-4 flex items-center justify-center rounded transition-all duration-300 ${
-              day === selectedDate
-                ? booked
-                  ? "bg-green-500 text-white scale-110"
-                  : "bg-blue-500 text-white scale-110"
-                : day % 7 === 0 || day % 6 === 0
-                  ? "bg-slate-200 text-slate-400"
-                  : "bg-white text-slate-600 hover:bg-slate-100"
-            }`}
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-      {booked && (
-        <div className="mt-2 text-xs text-green-600 font-medium animate-fade-in">✓ Appointment booked for the 15th</div>
-      )}
-    </div>
-  )
-}
-
-const AnimatedEmailDemo = ({ isActive }: { isActive: boolean }) => {
-  const [emails, setEmails] = useState([
-    { subject: "Service inquiry", status: "unread" },
-    { subject: "Appointment request", status: "unread" },
-    { subject: "Quote needed", status: "unread" },
-  ])
-
-  useEffect(() => {
-    if (!isActive) return
-
-    emails.forEach((_, index) => {
-      setTimeout(
-        () => {
-          setEmails((prev) => prev.map((email, i) => (i === index ? { ...email, status: "replied" } : email)))
-        },
-        1000 + index * 800,
-      )
-    })
-  }, [isActive])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32 overflow-hidden">
-      <div className="space-y-2">
-        {emails.map((email, i) => (
-          <div
-            key={i}
-            className={`flex items-center gap-2 p-2 rounded transition-all duration-500 ${
-              email.status === "replied" ? "bg-green-100" : "bg-white"
-            }`}
-          >
-            <div className={`w-2 h-2 rounded-full ${email.status === "replied" ? "bg-green-500" : "bg-blue-500"}`} />
-            <span className="text-xs text-slate-700 flex-1">{email.subject}</span>
-            {email.status === "replied" && (
-              <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-const AnimatedLeadsDemo = ({ isActive }: { isActive: boolean }) => {
-  const [leads, setLeads] = useState([
-    { name: "Sarah M.", score: 0, qualified: false },
-    { name: "John D.", score: 0, qualified: false },
-    { name: "Mike R.", score: 0, qualified: false },
-  ])
-
-  useEffect(() => {
-    if (!isActive) return
-
-    leads.forEach((_, index) => {
-      setTimeout(() => {
-        const targetScore = [85, 92, 78][index]
-        const interval = setInterval(() => {
-          setLeads((prev) =>
-            prev.map((lead, i) => {
-              if (i === index && lead.score < targetScore) {
-                const newScore = Math.min(lead.score + 5, targetScore)
-                return {
-                  ...lead,
-                  score: newScore,
-                  qualified: newScore >= 80,
-                }
-              }
-              return lead
-            }),
-          )
-        }, 50)
-
-        setTimeout(() => clearInterval(interval), 1000)
-      }, index * 600)
-    })
-  }, [isActive])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32 overflow-hidden">
-      <div className="space-y-2">
-        {leads.map((lead, i) => (
-          <div key={i} className="flex items-center gap-2">
-            <span className="text-xs text-slate-700 w-12">{lead.name}</span>
-            <div className="flex-1 bg-slate-200 rounded-full h-2">
-              <div
-                className={`h-2 rounded-full transition-all duration-500 ${
-                  lead.qualified ? "bg-green-500" : "bg-blue-500"
-                }`}
-                style={{ width: `${lead.score}%` }}
-              />
-            </div>
-            <span className="text-xs font-medium w-8">{lead.score}%</span>
-            {lead.qualified && <span className="text-xs text-green-600">✓</span>}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-const AnimatedIntegrationsDemo = ({ isActive }: { isActive: boolean }) => {
-  const [connections, setConnections] = useState([
-    { name: "CRM", connected: false },
-    { name: "WhatsApp", connected: false },
-    { name: "Calendar", connected: false },
-    { name: "Email", connected: false },
-  ])
-
-  useEffect(() => {
-    if (!isActive) return
-
-    connections.forEach((_, index) => {
-      setTimeout(
-        () => {
-          setConnections((prev) => prev.map((conn, i) => (i === index ? { ...conn, connected: true } : conn)))
-        },
-        500 + index * 400,
-      )
-    })
-  }, [isActive])
-
-  return (
-    <div className="bg-slate-50 rounded-lg p-4 h-32">
-      <div className="grid grid-cols-2 gap-2">
-        {connections.map((conn, i) => (
-          <div
-            key={i}
-            className={`flex items-center gap-2 p-2 rounded transition-all duration-500 ${
-              conn.connected ? "bg-green-100" : "bg-white"
-            }`}
-          >
-            <div
-              className={`w-2 h-2 rounded-full transition-colors duration-500 ${
-                conn.connected ? "bg-green-500" : "bg-slate-300"
-              }`}
-            />
-            <span className="text-xs text-slate-700">{conn.name}</span>
-          </div>
-        ))}
-      </div>
-      <div className="mt-2 text-center">
-        <div className="text-xs text-slate-500">{connections.filter((c) => c.connected).length}/4 connected</div>
-      </div>
-    </div>
-  )
-}
-
-const features = [
-  {
-    title: "Campañas de Relaciones Públicas",
-    description:
-      "Estrategias de RP integradas que posicionan tu marca en medios de comunicación, amplificando tu alcance y credibilidad en el mercado.",
-    demo: AnimatedChatDemo,
-    size: "large",
-    icon: Megaphone,
-  },
-  {
-    title: "Producción Creativa",
-    description:
-      "Contenido visual y textual de alto impacto que captura la atención, genera engagement y cuenta la historia de tu marca de forma auténtica.",
-    demo: AnimatedPhoneDemo,
-    size: "medium",
-    icon: Lightbulb,
-  },
-  {
-    title: "Marketing Solutions",
-    description:
-      "Campañas integradas que conectan RP, contenido y medios digitales para maximizar el impacto y ROI de tus iniciativas de comunicación.",
-    demo: AnimatedCalendarDemo,
-    size: "medium",
-    icon: TrendingUp,
-  },
-  {
-    title: "Estrategia Digital",
-    description:
-      "Posicionamiento en redes sociales, SEO y contenido digital que amplifica tu mensaje y conecta con tu audiencia donde ellos están.",
-    demo: AnimatedEmailDemo,
-    size: "large",
-  },
-  {
-    title: "Influencer & Alianzas",
-    description:
-      "Conexiones estratégicas con influencers y partners que expanden tu alcance y generan credibilidad a través de voces confiables.",
-    demo: AnimatedLeadsDemo,
-    size: "medium",
-  },
-  {
-    title: "Monitoreo y Analytics",
-    description:
-      "Seguimiento detallado de resultados, métricas de impacto y ROI para optimizar continuamente tus estrategias de comunicación.",
-    demo: AnimatedIntegrationsDemo,
-    size: "medium",
-  },
+const stats = [
+  { value: "+1,000", label: "Campañas lanzadas" },
+  { value: "4.5", label: "Años impulsando marcas" },
+  { value: "100%", label: "Compromiso con resultados reales" },
 ]
 
 export function FeaturesSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const [activeDemo, setActiveDemo] = useState<number | null>(null)
+  const [isLight, setIsLight] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -100px 0px",
-      },
-    )
+    const isLightMode = document.documentElement.classList.contains('light')
+    setIsLight(isLightMode)
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
+    const observer = new MutationObserver(() => {
+      const nowLight = document.documentElement.classList.contains('light')
+      if (nowLight !== isLight) setIsLight(nowLight)
+    })
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
-    }
-  }, [])
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [isLight])
+
+  // El variant base (sin hover)
+  const baseVariant = isLight ? "dark" : "light"
+
+  // El variant ACTUAL: si hay hover, lo invertimos
+  const currentVariant = isHovered ? (baseVariant === "dark" ? "light" : "dark") : baseVariant
+
+  // El color de texto: sigue la lógica del variant ACTUAL
+  const isTextWhite = currentVariant === "light" // porque "light" = fondo blanco → texto oscuro, "dark" = fondo negro → texto blanco
+    ? false
+    : true
 
   return (
-    <section id="features" ref={sectionRef} className="relative z-10">
-      <div className="bg-white dark:bg-slate-900 rounded-t-[3rem] pt-16 sm:pt-24 pb-16 sm:pb-24 px-4 relative overflow-hidden transition-colors duration-300">
-        <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgb(0,0,0) 1px, transparent 0)`,
-              backgroundSize: "24px 24px",
-            }}
-          ></div>
-        </div>
+    <section id="features" className="py-24 md:py-32 bg-background/70">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Texto */}
+          <div className="space-y-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground text-balance"
+            >
+              Creamos narrativas que{" "}
+              <span className="font-bold italic">conectan marcas </span>con audiencias
+            </motion.h2>
 
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-slate-200 dark:bg-slate-700 rounded-full animate-float"
-              style={{
-                left: `${20 + i * 15}%`,
-                top: `${30 + (i % 3) * 20}%`,
-                animationDelay: `${i * 0.5}s`,
-                animationDuration: `${4 + i * 0.5}s`,
-              }}
-            ></div>
-          ))}
-        </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-lg text-foreground/70 leading-relaxed max-w-xl"
+            >
+              En <span className="font-bold"> TIKI PR </span>, combinamos creatividad, estrategia y tecnología para construir presencia auténtica, generar
+              engagement y posicionar tu marca en el corazón de tu público.
+            </motion.p>
 
-        <div className="max-w-7xl mx-auto relative">
-          <div
-            className={`text-center mb-12 sm:mb-20 transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium mb-6 transition-colors duration-300">
-              <svg className="w-4 h-4 mr-2 text-slate-600 dark:text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V7H1V9H3V15H1V17H3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V17H23V15H21V9H23ZM19 9V15H5V9H19ZM7.5 11.5C7.5 10.67 8.17 10 9 10S10.5 10.67 10.5 11.5 9.83 13 9 13 7.5 12.33 7.5 11.5ZM13.5 11.5C13.5 10.67 14.17 10 15 10S16.5 10.67 16.5 11.5 15.83 13 15 13 13.5 12.33 13.5 11.5ZM12 16C13.11 16 14.08 16.59 14.71 17.5H9.29C9.92 16.59 10.89 16 12 16Z" />
-              </svg>
-              Nuestros Servicios
+            <div className="space-y-4 pt-4">
+              {pillars.map((pillar, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                  className="flex items-start gap-3"
+                >
+                  <CheckCircle2 className="text-foreground/60 mt-1 flex-shrink-0" size={24} />
+                  <span className="text-foreground">{pillar}</span>
+                </motion.div>
+              ))}
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white text-balance mb-4 sm:mb-6 transition-colors duration-300">
-              Servicios Integrales de{" "}
-              <span className="bg-gradient-to-r from-slate-600 to-slate-400 dark:from-slate-300 dark:to-slate-100 bg-clip-text text-transparent">
-                Comunicación
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto font-light leading-relaxed transition-colors duration-300">
-              Soluciones completas en producción creativa, relaciones públicas y marketing que transforman tu marca y
-              generan impacto medible.
-            </p>
           </div>
 
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 transition-all duration-1000 delay-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
+          {/* Stats con hover controlado desde aquí */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 11, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 300 }}
+            className="relative"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`group transition-all duration-1000 ${feature.size === "large" ? "md:col-span-2" : ""}`}
-                style={{
-                  transitionDelay: isVisible ? `${300 + index * 100}ms` : "0ms",
-                }}
-                onMouseEnter={() => setActiveDemo(index)}
-                onMouseLeave={() => setActiveDemo(null)}
-              >
-                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 h-full shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600">
-                  <div className="mb-6">
-                    {feature.demo ? <feature.demo isActive={activeDemo === index || isVisible} /> : null}
-                  </div>
+            <GlassCard
+  variant={currentVariant}
+  rounded="lg"
+  padding="lg"
+  blur="xl"
+  className={`
+    space-y-6 md:space-y-8 cursor-pointer transition-colors duration-300
+    ${isHovered 
+      ? currentVariant === "light" 
+        ? "bg-black/5 border-black/10" 
+        : "bg-white/5 border-white/0"
+      : ""
+    }
+  `}
+>
+  {stats.map((stat, index) => (
+    <motion.div
+      key={stat.label}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+      className="text-center space-y-2"
+    >
+      <div className={`text-5xl md:text-6xl font-bold ${isTextWhite ? 'text-white' : 'text-slate-950'}`}>
+        {stat.value}
+      </div>
+      <p className={`text-lg ${isTextWhite ? 'text-white/90' : 'text-slate-950/90'}`}>
+        {stat.label}
+      </p>
+    </motion.div>
+  ))}
+</GlassCard>
 
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed transition-colors duration-300">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+            {/* Decoración */}
+            <div className="absolute -top-20 -right-20 w-74 h-74 md:w-52 md:h-52 bg-primary/10 rounded-full blur-xl" />
+            <div className="absolute -bottom-6 -left-6 w-24 h-24 md:w-32 md:h-32 bg-secondary/10 rounded-full blur-xl" />
+          </motion.div>
         </div>
       </div>
     </section>

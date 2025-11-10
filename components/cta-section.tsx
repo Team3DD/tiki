@@ -42,7 +42,7 @@ export function CTASection() {
         >
           <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground mb-6 text-balance leading-tight">
             ¿Listo para transformar tu{" "}
-            <span className="font-medium italic bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <span className="font-medium italic ">
               comunicación?
             </span>
           </h3>

@@ -20,7 +20,7 @@ export function ColaborationSection() {
     setTimeout(() => setSelectedCollaboration(null), 300);
   }, []);
 
-  // Lista de colaboraciones - memoizada para evitar recreación
+  // Lista de colaboraciones
   const collaborations: Collaboration[] = useMemo(() => {
     const createCollaboration = (
       name: string,
@@ -128,19 +128,6 @@ export function ColaborationSection() {
     ];
   }, [openModal]);
 
-  // Dividir colaboraciones en 3 columnas - memoizado
-  const columns = useMemo(() => {
-    const numColumns = 3;
-    const cols: Collaboration[][] = Array.from({ length: numColumns }, () => []);
-
-    collaborations.forEach((item, index) => {
-      const columnIndex = index % numColumns;
-      cols[columnIndex].push(item);
-    });
-
-    return cols;
-  }, [collaborations]);
-
   // Fade-in en scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -168,9 +155,8 @@ export function ColaborationSection() {
     <section
       id="testimonials"
       ref={sectionRef}
-      className="relative pt-24 pb-24 px-4 sm:px-6 lg:px-8 bg-transparent"
+      className="relative pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-transparent"
     >
-      {/* Grid de fondo sutil */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div
           className="h-full w-full"
@@ -185,7 +171,6 @@ export function ColaborationSection() {
       </div>
 
       <div className="relative max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <div
             className="fade-in-element inline-flex items-center gap-2 text-[var(--color-foreground)]/60 text-sm font-medium tracking-wider uppercase mb-6"
@@ -209,38 +194,13 @@ export function ColaborationSection() {
           </p>
         </div>
 
-        {/* Carrusel de colaboraciones - 3 columnas distribuidas */}
         <div className="flex gap-6 max-w-6xl w-full justify-center mx-auto">
-          {columns[0] && columns[0].length > 0 && (
-            <CollaborationColumn
-              key="col-0"
-              collaborations={columns[0]}
-              duration={65}
-              delay={0}
-            />
-          )}
-          {columns[1] && columns[1].length > 0 && (
-            <CollaborationColumn
-              key="col-1"
-              collaborations={columns[1]}
-              duration={65}
-              delay={0}
-              className="hidden md:block"
-            />
-          )}
-          {columns[2] && columns[2].length > 0 && (
-            <CollaborationColumn
-              key="col-2"
-              collaborations={columns[2]}
-              duration={65}
-              delay={0}
-              className="hidden lg:block"
-            />
-          )}
+          <CollaborationColumn collaborations={collaborations} startIndex={0} duration={85} />
+          <CollaborationColumn collaborations={collaborations} startIndex={2} duration={85} delay={2} className="hidden md:block" />
+          <CollaborationColumn collaborations={collaborations} startIndex={4} duration={85} delay={4} className="hidden lg:block" />
         </div>
       </div>
 
-      {/* Modal */}
       {selectedCollaboration && (
         <CollaborationModal
           isOpen={modalOpen}

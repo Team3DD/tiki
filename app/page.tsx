@@ -3,16 +3,16 @@
 
 import { GlassmorphismNav } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
-import { ProblemSolutionSection } from "@/components/problem-solution-section"
 import Aurora from "@/components/Aurora"
 import { FeaturesSection } from "@/components/features-section"
 import { AITeamSection } from "@/components/ai-team-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
-import { ROICalculatorSection } from "@/components/roi-calculator-section"
+import  Portfolio  from "@/components/portfolio"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 import { useEffect, useState, useCallback } from "react"
 import { ColaborationSection } from "@/components/CollaborationSection"
+import  ProcessSection  from "@/components/process-section"
 
 const AURORA_COLORS = {
   dark: ["#abb6ca", "#44484e", "#32373f"],
@@ -61,10 +61,10 @@ export default function HomePage() {
           <HeroSection />
           <ColaborationSection/>
           <FeaturesSection />
-          <ProblemSolutionSection />
+          <ProcessSection />
           <AITeamSection />
           <TestimonialsSection />
-          <ROICalculatorSection />
+          <Portfolio />
           <CTASection />
           <Footer />
         </div>
